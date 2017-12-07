@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Adventure game</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1 id="title">Main menu</h1>
+        <h2 id="text">Here comes text</h2>
+        <div id="menu">
+            <ul>
+                <span id="start">Start
+                    <ul id="drop">
+                        <li class="pad-topbot"><a href="#" onclick="hidemenu(); startWoods(); fade();">Start in woods</a></li>
+                        <li class="pad-topbot"><a href="#" onclick="hidemenu(); startBeach(); fade();">Start on the beach</a></li>
+                        <li class="pad-topbot"><a href="#" onclick="hidemenu(); startOcean(); fade();">Start in the ocean</a></li>
+                    </ul>
+                </span>
+                <li id="help" class="pad-top"><a class="white" href="help.html">Help</a></li>
+            </ul>
+        </div>
+        <main id="main">
+            <img id="image" src="assets/img/placeholder.png">
+            <p class="buttons" id="button_1" onclick="fade();">Optie1</p>
+            <p class="buttons" id="button_2" onclick="fade();">Optie2</p>
+            <p class="buttons" id="button_3" onclick="fade();">Optie3</p>
+            <p id="inventorybutton" onclick="openInventory(); fade();">Check inventory</p>
+        </main>
+        <script src="assets/js/script.js"></script>
+    </body>
