@@ -488,8 +488,12 @@ function insideBunker(){
     title.innerHTML = "Inside the bunker";
     text.innerHTML = "Inside the dark bunker";
     show();
-    button1.innerHTML = "Search the box";
-    button1.setAttribute("onClick", 'insideBunker()');
+    if (key == false){
+        button1.innerHTML = "Search the box";
+        button1.setAttribute("onClick", 'searchBox()');
+    } else{
+        button1.style.display = "none";
+    }
     button2.innerHTML = "Go back";
     button2.setAttribute("onClick", 'goBunker()');
     button3.style.display = "none"
@@ -508,14 +512,14 @@ function insideBunker(){
 
 function searchBox(){
     currentScene = "searchBox";
-    title.innerHTML = "Inside the bunker";
-    text.innerHTML = "Inside the dark bunker";
+    title.innerHTML = "The box";
+    text.innerHTML = "Looting the box";
     show();
-    button1.innerHTML = "Search the box";
-    button1.setAttribute("onClick", 'insideBunker()');
-    button2.innerHTML = "Go back";
-    button2.setAttribute("onClick", 'goBunker()');
-    button3.style.display = "none"
+    button1.innerHTML = "Take the key";
+    button1.setAttribute("onClick", 'takeKey()');
+    button2.innerHTML = "Leave the key";
+    button2.setAttribute("onClick", 'insideBunker()');
+    button3.style.display = "none";
     if (hatchet == true){
         image.src = "assets/img/hatchetbox.png";
     } else {
@@ -540,6 +544,11 @@ function searchBox(){
     if (pistol && m4 && hatchet == true){
         image.src = "assets/img/inventoryallbox.png";
     }
+}
+
+function takeKey(){
+    key = true;
+    insideBunker();
 }
 
 function openInventory(){
@@ -712,6 +721,9 @@ function checkScene()
             break;
         case "insideBunker":
             insideBunker();
+            break;
+        case "searchBox":
+            searchBox();
             break;
         default:
             startWoods();
