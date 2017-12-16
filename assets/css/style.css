@@ -56,6 +56,16 @@ img{
     font-size: 17px;
 }
 
+#dia{
+    position: absolute;
+    left: 484px;
+    bottom: 205px;
+    width: 912px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.700);
+    text-shadow: 1px 1px black;
+}
+
 /*End Main*/
 
 /*Menu*/

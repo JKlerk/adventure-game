@@ -1,6 +1,7 @@
 //Tabs
 var title = document.getElementById("title");
 var text = document.getElementById("text");
+var dia = document.getElementById("dia");
 var image = document.getElementById("image");
 var button1 = document.getElementById("button_1")
 var button2 = document.getElementById("button_2")
@@ -9,12 +10,16 @@ var inventorybutton = document.getElementById("inventorybutton")
 var main = document.getElementById("main")
 var currentScene;
 
-var hatchet = true;
-var pistol = true;
+var hatchet = false;
+var pistol = false;
 var m4 = false;
 var scavDead = false;
-var water = false;
-var key = false;
+var water = true;
+var key = true;
+var chestLooted = false;
+var heliCalled = true;
+var giveWatervar = false;
+var giveKeyvar = false;
 
 function show(){
     main.style.display = "block";
@@ -24,6 +29,7 @@ function show(){
     inventorybutton.style.display = "block";
     image.style.display = "block";
     text.style.display = "block";
+    dia.style.display = " block";
 }
 
 function hide(){
@@ -33,6 +39,7 @@ function hide(){
     inventorybutton.style.display = "block";
     image.style.display = "block";
     text.style.display = "block";
+    dia.style.display = "block";
 }
 
 function fade(){
@@ -52,15 +59,19 @@ function startWoods(){
     currentScene = "Woods";
     title.innerHTML = "Woods";
     text.innerHTML = "You are in the woods";
+    dia.innerHTML = "In the woods. I can see a building in the distance maybe I can go there."
     show();
     image.src = "assets/img/strandempty.png";
     button1.innerHTML = "Go forward";
-    button1.setAttribute("onClick", 'midWay()');
+    button1.setAttribute('onClick', 'midWay()');
     button2.innerHTML = "Go to the bunker";
-    button2.setAttribute("onClick", 'goBunker()');
+    button2.setAttribute('onClick', 'goBunker()');
     button3.innerHTML = "Search the grass";
-    button3.setAttribute("onClick", 'searchGrass()');
+    button3.setAttribute('onClick', 'searchGrass()');
     console.log("Startwoods")
+    if (heliCalled == true){
+        image.src = "assets/img"
+    }
     if (hatchet == true){
         image.src = "assets/img/woodshatchet.png";
     } else{
@@ -79,13 +90,14 @@ function midWay(){
     currentScene = "midWay"
     title.innerHTML = "The field"
     text.innerHTML = "You are walking on a beautiful grass field"
+    dia.innerHTML = "You are now in an grass field. You see a building, it looks like I can go inside. I can go also go to the right and keep walking trough the field."
     show()
     button1.innerHTML = "Go to the house"
-    button1.setAttribute("onClick", 'insideHouse()')
+    button1.setAttribute('onClick', 'insideHouse()')
     button2.innerHTML = "Go to the right"
-    button2.setAttribute("onClick", 'waytoBeach()')
+    button2.setAttribute('onClick', 'waytoBeach()')
     button3.innerHTML = "Go to the trees"
-    button3.setAttribute("onClick", 'startWoods()')
+    button3.setAttribute('onClick', 'startWoods()')
     console.log("midWay")
     if (hatchet == true){
         image.src = "assets/img/midwayhatchet.png";
@@ -104,14 +116,19 @@ function insideHouse(){
     currentScene = "insideHouse";
     title.innerHTML = "The house";
     text.innerHTML = "Hmmm.. An old house"
+    dia.innerHTML = "This house looks very old. I don't see anyone and I don't think there is anything here. I can stil look around though"
     show()
     button3.style.display = "none";
+    image.src = "assets/img/huisempty.png"
     inventorybutton.style.display = "block";
     button1.innerHTML = "Search the house";
-    button1.setAttribute("onClick", 'searchHouse()')
+    button1.setAttribute('onClick', 'searchHouse()')
     button2.innerHTML = "Leave the house"
-    button2.setAttribute("onClick", 'midWay()')
+    button2.setAttribute('onClick', 'midWay()')
     console.log("insideHouse")
+    if (hatchet == true){
+        searchHouseExit();  
+    }
     if (scavDead == true){
         text.style.display = "block";
         text.innerHTML = "The scav you killed does not have anything good on him.."
@@ -129,16 +146,17 @@ function searchHouse(){
     currentScene = "searchHouse";
     title.innerHTML = "The M4";
     text.innerHTML = "Looks like an M4!"
+    dia.innerHTML = "A military grade M4. Should I pick it up?"
     show() 
     if (scavDead == false){
-        button2.setAttribute("onClick", 'searchHouseExit()');
+        button2.setAttribute('onClick', 'searchHouseExit()');
     } else{
-        button2.setAttribute("onClick", 'insideHouse()');
+        button2.setAttribute('onClick', 'insideHouse()');
     }  
     button3.style.display = "none";
     inventorybutton.style.display = "block";
     button1.innerHTML = "Take the M4";
-    button1.setAttribute("onClick", 'takeM4()');  
+    button1.setAttribute('onClick', 'takeM4()');  
     button2.innerHTML = "Leave the M4";
     console.log("searchHouse")
     if (hatchet == true){
@@ -165,11 +183,12 @@ function searchHouseExit(){
         currentScene = "searchHouseExit"
         title.innerHTML = "Someone is here!"
         text.innerHTML = "Someone has found me!"
+        dia.innerHTML = "There is a person here. He doesn't speak english and doesn't look very friendly. What should I do?"
         show()
         if (pistol && hatchet == true){
             button1.style.display = "block";
             button1.innerHTML = "Shoot the scav";
-            button1.setAttribute("onClick", 'killScav()');
+            button1.setAttribute('onClick', 'killScav()');
             image.src = "assets/img/huisexitpistol.png"
         }
         if (hatchet == true){
@@ -182,18 +201,19 @@ function searchHouseExit(){
         if (pistol == true){
             button1.style.display = "block";
             button1.innerHTML = "Shoot the scav";
-            button1.setAttribute("onClick", 'killScav()');
+            button1.setAttribute('onClick', 'killScav()');
             image.src = "assets/img/huisexitpistol.png"
         }
         if (m4 == true){
             button1.style.display = "block";
             button1.innerHTML = "Shoot the scav";
-            button1.setAttribute("onClick", 'killScav()');
+            button1.setAttribute('onClick', 'killScav()');
             image.src = "assets/img/huisexitm4.png"
         }
         button2.innerHTML = "Do nothing";
-        button2.setAttribute("onClick", 'youDied()');
-        button3.style.display = "none";
+        button2.setAttribute('onClick', 'youDied()');
+        button3.innerHTML = "Talk with the scav";
+        button3.setAttribute('onClick', "youDied()")
         console.log("searchHouseExit");
     }
 }
@@ -208,9 +228,9 @@ function searchGrass(){
     title.innerHTML = "The pistol"
     show()
     button1.innerHTML = "Take the pistol"
-    button1.setAttribute("onClick", 'pistolFunc()')
+    button1.setAttribute('onclick', 'pistolFunc()')
     button2.innerHTML = "Leave the pistol"
-    button2.setAttribute("onClick", 'startWoods()')
+    button2.setAttribute('onclick', 'startWoods()')
     button3.style.display = "none"
     console.log("searchGrass")
     if (hatchet == true){
@@ -230,14 +250,21 @@ function pistolFunc(){
 
 function waytoBeach(){
     currentScene = "waytoBeach";
-    title.innerHTML = "Going to the beach!";
+    title.innerHTML = "Walking trough a field!";
     text.innerHTML = "What a beautiful view!"
+    dia.innerHTML = "This grass field looks very nice. But I can hear the ocean in the distance."
     show()
     button1.innerHTML = "Keep going";
-    button1.setAttribute("onClick", 'tent()');
-    button2.innerHTML = "Go back"
-    button2.setAttribute("onClick", 'midWay()');
-    button3.style.display = "none";
+    button1.setAttribute('onclick', 'tent()');
+    if (heliCalled == true){
+        button2.style.display = "block"
+        button2.innerHTML = "Go to the helicopter"
+        button2.setAttribute('onclick', 'atHelicopter()');
+    } else{
+        button2.style.display = "none"
+    }
+    button3.innerHTML = "Go back"
+    button3.setAttribute('onclick', 'midWay()');
     console.log("waytoBeach");
     if (hatchet == true){
         image.src = "assets/img/waytobeachhatchet.png";
@@ -252,16 +279,30 @@ function waytoBeach(){
     }
 }
 
+function callHeli(){
+    currentScene = "callHeli";
+    title.innerHTML = "Helicopter";
+    text.innerHTML = "You have called the helicopter"
+    heliCalled = true;
+    startBeach();
+}
+
 function waytoBeachBack(){
     currentScene = "waytoBeachBack";
-    title.innerHTML = "Going back!";
+    title.innerHTML = "On the field";
     text.innerHTML = "Back at the field"
+    dia.innerHTML = "Back on this beautiful field. Where should I go?"
     show()
     button1.innerHTML = "Go to the house";
-    button1.setAttribute("onClick", 'midWay()');
-    button2.innerHTML = "Go back to the tent"
-    button2.setAttribute("onClick", 'tent()');
-    button3.style.display = "none";
+    button1.setAttribute('onclick', 'midWay()');
+    if (heliCalled == true){
+        button2.innerHTML = "Go to the helicopter";
+        button2.setAttribute('onclick', 'atHelicopter()');
+    } else{
+        button2.style.display = "none";
+    }
+    button3.innerHTML = "Go back to the tent"
+    button3.setAttribute('onclick', 'tent()');
     console.log("waytoBeachBack");
     if (hatchet == true){
         image.src = "assets/img/waytobeachbackhatchet.png";
@@ -276,17 +317,79 @@ function waytoBeachBack(){
     }
 }
 
+function atHelicopter(){
+    currentScene = "atHelicopter";
+    title.innerHTML = "Helicopter";
+    text.innerHTML = "Ready to leave?"
+    dia.innerHTML = "Looks like someone heard me on the radio. It looks like he is here to help me get off this island."
+    show()
+    button1.innerHTML = "Leave the island"
+    button1.setAttribute('onClick', "endGame()");
+    button2.innerHTML = "Go back";
+    button2.setAttribute('onclick', 'waytoBeachBack()');
+    button3.style.display = "none"
+    image.src = "assets/img/waytobeachbackheli.png";
+    console.log("helicopter");
+}
+
+function endGame(){
+    currentScene - "endGame";
+    title.innerHTML =  "Helicopter";
+    text.innerHTML = "He is asking me some questions";
+    dia.innerHTML = "Pilot: Do you the key and some water for me?";
+    hide();
+    if (giveWatervar && giveKeyvar == true){
+        button1.style.display = "block";
+        button1.setAttribute('onClick', "End()");
+        dia.innerHTML = "Pilot: Thank you, are you ready to leave?";
+    }
+    if (giveKeyvar == true){
+        button1.style.display = "none";
+    }
+    if (key == true){
+        button1.style.display = "block";
+        button1.innerHTML = "Give the key";
+        button1.setAttribute('onclick', 'giveKey()');
+    }
+    if (giveWatervar == true){
+        button2.style.display = "none";
+    }
+    if (water == true){
+        button2.style.display = "block";
+        button2.innerHTML = "Give water"
+        button2.setAttribute('onclick', 'giveWater()');
+    }
+    button3.style.display = "block";
+    button3.innerHTML = "Do nothing";
+    button3.setAttribute('onClick', "youDied()");
+}
+
+function End(){
+    image.src = "assets/img/end.png";
+}
+
+function giveWater(){
+    giveWatervar = true;
+    endGame();
+}
+
+function giveKey(){
+    giveKeyvar = true;
+    endGame();
+}
+
 function tent(){
     currentScene = "tent";
     title.innerHTML = "The tent";
     text.innerHTML = "Looks like a tent"
-    show()
+    dia.innerHTML = "Ah a tent! Looks like there could be some good stuff there. Should I go there? "
+    show();
     button1.innerHTML = "Go to the tent";
-    button1.setAttribute("onClick", 'lootTent()');
+    button1.setAttribute('onclick', 'lootTent()');
     button2.innerHTML = "Go to the beach"
-    button2.setAttribute("onClick", 'startBeach()');
+    button2.setAttribute('onclick', 'startBeach()');
     button3.innerHTML = "Go to the house"
-    button3.setAttribute("onClick", 'waytoBeachBack()')
+    button3.setAttribute('onclick', 'waytoBeachBack()')
     console.log("tent")
     if (hatchet == true){
         image.src = "assets/img/tenthatchet.png";
@@ -303,11 +406,12 @@ function tent(){
 
 function lootTent(){
     currentScene = "lootTent";
-    show()
+    dia.innerHTML = "Let's see what I can take from this tent"
+    show();
     button2.innerHTML = "Go to the beach"
-    button2.setAttribute("onClick", 'startBeach()');
+    button2.setAttribute('onclick', 'startBeach()');
     button3.innerHTML = "Go back"
-    button3.setAttribute("onClick", 'tent()');
+    button3.setAttribute('onclick', 'tent()');
     console.log("lootTent")
     if (water == true){
         button1.style.display = "none";
@@ -328,7 +432,7 @@ function lootTent(){
         title.innerHTML = "At the tent";
         text.innerHTML = "Theres some water here"
         button1.innerHTML = "Take the water";
-        button1.setAttribute("onClick", 'takeWater()');
+        button1.setAttribute('onclick', 'takeWater()');
         if (hatchet == true){
             image.src = "assets/img/tentloothatchet.png";
         } else{
@@ -351,18 +455,28 @@ function takeWater(){
 function startBeach(){
     currentScene = "Beach"
     title.innerHTML = "Beach";
+    text.innerHTML = "On the beach"
+    dia.innerHTML = "On the beach. I don't see anyone around me but I can see a sunken boat in the ocean"
     show()
     button1.innerHTML = "Go to the boat"
-    button1.setAttribute("onClick", 'lootHatchet()');
-    button2.innerHTML = "Turn around";
-    button2.setAttribute("onClick", 'leaveBeach()');
-    button3.style.display = "none"
-    text.innerHTML = "On the beach"
+    button1.setAttribute('onclick', 'lootHatchet()');
+    button2.innerHTML = "Go into the ocean";
+    button2.setAttribute('onClick', 'startOcean()');
+    button3.innerHTML = "Turn around";
+    button3.setAttribute('onClick', 'leaveBeach()');
     console.log("startBeach")
+    if (chestLooted == true){
+        button2.innerHTML = "Call the helicopter";
+        button2.setAttribute('onClick', 'callHeli()');
+    }
+    if (heliCalled == true){
+        text.innerHTML = "You called the helicopter"
+        button2.style.display = "none"
+    }
     if (hatchet == true){
         image.src = "assets/img/beachhatchet.png";
         button1.style.display = "none"
-        text.innerHTML = "Theres nothing left on the beach"
+        text.innerHTML = "Theres nothing left to take on the beach"
     } else {
         image.src = "assets/img/beachempty.png";
     }
@@ -377,13 +491,14 @@ function startBeach(){
 function lootHatchet(){
     currentScene = "lootHatchet"
     title.innerHTML = "The hatchet"
+    text.innerHTML = "Looks like a hatchet"
+    dia.innerHTML = "A hatchet. Looks like it has been used before but I dont see anyone."
     show()
     button1.innerHTML = "Take the hatchet"
-    button1.setAttribute("onClick", 'takeHatchet()');
+    button1.setAttribute('onClick', 'takeHatchet()');
     button2.innerHTML = "Go back";
-    button2.setAttribute("onClick", 'startBeach()');
+    button2.setAttribute('onClick', 'startBeach()');
     button3.style.display = "none"
-    text.innerHTML = "Looks like I found a hatchet!"
     console.log("lootHatchet")
     if (pistol == true){
         image.src = "assets/img/hatchetbeachpistol.png";
@@ -402,12 +517,14 @@ function takeHatchet(){
 function leaveBeach(){
     currentScene = "leaveBeach"
     title.innerHTML = "On the beach";
+    text.innerHTML = "On the beach";
+    dia.innerHTML = "I can go up the hill maybe there is something there."
     show()
     image.style.display = "block";
     button1.innerHTML = "Go to the tent"
-    button1.setAttribute("onClick", 'tent()');
+    button1.setAttribute('onClick', 'tent()');
     button2.innerHTML = "Turn around";
-    button2.setAttribute("onClick", 'startBeach()');
+    button2.setAttribute('onClick', 'startBeach()');
     button3.style.display = "none"
     console.log("leaveBeach")
     if (hatchet == true){
@@ -421,6 +538,19 @@ function leaveBeach(){
     if (m4 == true){
         image.src = "assets/img/beachbackm4.png";
     }
+    if (hatchet == false && heliCalled == true){
+        image.src = "assets/img/beachbackemptyheli.png";
+    }
+
+    if (hatchet && heliCalled == true){
+        image.src = "assets/img/beachbackhatchetheli.png";
+    }
+    if (pistol && heliCalled == true){
+        image.src = "assets/img/beachbackpistolheli.png";
+    } 
+    if (m4 && heliCalled == true){
+        image.src = "assets/img/beachbackm4heli.png";
+    }
 }
 
 function youDied(){
@@ -429,18 +559,20 @@ function youDied(){
     inventorybutton.style.display = "none";
     title.innerHTML = "You died!";
     text.innerHTML = "I'm very dead";
+    dia.innerHTML = "You got shot and you died."
     console.log("You are dead");
 }
 function startOcean(){
     currentScene = "startOcean"
     title.innerHTML = "In the ocean";
     text.innerHTML = "In the ocean"
+    dia.innerHTML = "*blub* *blub* *blub *blub*"
     show();
     image.src = "assets/img/ocean.jpg"
-    button1.innerHTML = "Swim up to the beach (No return)";
-    button1.setAttribute("onClick", 'startBeach()');
+    button1.innerHTML = "Swim up to the beach";
+    button1.setAttribute('onClick', 'startBeach()');
     button2.innerHTML = "Swim down";
-    button2.setAttribute("onClick", 'swimDown()');
+    button2.setAttribute('onClick', 'swimDown()');
     button3.style.display = "none";
     console.log("Ocean")
 }
@@ -452,22 +584,67 @@ function swimDown(){
     show();
     image.src = "assets/img/underwaterboat.jpg";
     button1.innerHTML = "Swim into the boat";
-    button1.setAttribute("onClick", 'insideBoat()');
+    button1.setAttribute('onClick', 'insideBoat()');
     button2.innerHTML = "Go back";
-    button2.setAttribute("onClick", 'startOcean()');
+    button2.setAttribute('onClick', 'startOcean()');
     button3.style.display = "none";
     console.log("At the boat")
+}
+
+function insideBoat(){
+    currentScene = "insideBoat";
+    title.innerHTML = "The Boat";
+    text.innerHTML = "Inside the boat";
+    show();
+    button1.innerHTML = "Search jacket";
+    button1.setAttribute('onClick', 'searchJacket()');
+    button2.innerHTML = "Search Chest";
+    button2.setAttribute('onClick', 'searchChest()');
+    button3.innerHTML = "Go back"
+    button3.setAttribute('onClick', 'swimDown()');
+    if (chestLooted == true){
+        image.src = "assets/img/chestopen.png";
+    } else{
+        image.src = "assets/img/chestclosed.png";
+    }
+    console.log("At the boat")
+}
+
+function searchJacket(){
+    currentScene = "searchChest";
+    title.innerHTML = "The jacket";
+    text.innerHTML = "You found a note";
+    image.src = "assets/img/note.png"
+    hide();  
+    button1.style.display = "block";
+    button1.innerHTML = "Go back"
+    button1.setAttribute('onClick', 'insideBoat()');
+    console.log("The Jacket")
+}
+
+function searchChest(){
+    currentScene = "searchChest";
+    title.innerHTML = "The chest";
+    text.innerHTML = "You found a radio";
+    chestLooted = true;
+    image.src = "assets/img/chestopen.png";
+    hide();  
+    button1.style.display = "block";
+    button1.innerHTML = "Go back"
+    button1.setAttribute('onClick', 'insideBoat()');
+    console.log("The chest")
 }
 
 function goBunker(){
     currentScene = "goBunker";
     title.innerHTML = "At the bunker";
     text.innerHTML = "Just outisde the bunker";
+    dia.innerHTML = "Ah! A bunker. It's very dark and I don't have a flashlight. Should I go in and search it?"
     show();
     button1.innerHTML = "Go into the bunker";
-    button1.setAttribute("onClick", 'insideBunker()');
+    button1.setAttribute('onClick', 'insideBunker()');
     button2.innerHTML = "Go back";
-    button2.setAttribute("onClick", 'startWoods()');
+    button2.setAttribute('onClick', 'startWoods()');
     button3.style.display = "none";
     console.log("goBunker");
     if (hatchet == true){
@@ -487,15 +664,16 @@ function insideBunker(){
     currentScene = "insideBunker";
     title.innerHTML = "Inside the bunker";
     text.innerHTML = "Inside the dark bunker";
+    dia.innerHTML = "It's very dark here. There is noboy here but I can see a box that can be opened."
     show();
     if (key == false){
         button1.innerHTML = "Search the box";
-        button1.setAttribute("onClick", 'searchBox()');
+        button1.setAttribute('onClick', 'searchBox()');
     } else{
         button1.style.display = "none";
     }
     button2.innerHTML = "Go back";
-    button2.setAttribute("onClick", 'goBunker()');
+    button2.setAttribute('onClick', 'goBunker()');
     button3.style.display = "none"
     if (hatchet == true){
         image.src = "assets/img/inbunkerhatchet.png";
@@ -514,11 +692,12 @@ function searchBox(){
     currentScene = "searchBox";
     title.innerHTML = "The box";
     text.innerHTML = "Looting the box";
+    dia.innerHTML = "Looks like a key! It looks useful but should I take it?"
     show();
     button1.innerHTML = "Take the key";
-    button1.setAttribute("onClick", 'takeKey()');
+    button1.setAttribute('onClick', 'takeKey()');
     button2.innerHTML = "Leave the key";
-    button2.setAttribute("onClick", 'insideBunker()');
+    button2.setAttribute('onClick', 'insideBunker()');
     button3.style.display = "none";
     if (hatchet == true){
         image.src = "assets/img/hatchetbox.png";
@@ -556,8 +735,9 @@ function openInventory(){
     hide()
     button1.style.display = "block"
     button1.innerHTML = "Go back"
-    button1.setAttribute("onClick", 'checkScene()')
+    button1.setAttribute('onClick', 'checkScene()')
     inventorybutton.style.display = "none"
+    dia.style.display = "none"
     console.log("Inventory")
     //Simple Inventory
     if (hatchet == true){
@@ -643,29 +823,29 @@ function openInventory(){
     }
     //Key + Water inventory simple
     if (key && water == true){
-        image.src = "assets/img/emptykey.png";
+        image.src = "assets/img/emptywaterkey.png";
     }
     if (key && water && pistol == true){
-        image.src = "assets/img/pistolkey.png";
+        image.src = "assets/img/pistolwaterkey.png";
     }
     if (key && water && hatchet == true){
-        image.src = "assets/img/hatchetkey.png";
+        image.src = "assets/img/hatchetwaterkey.png";
     }
     if (key && water && m4 == true){
-        image.src = "assets/img/m4key.png";
+        image.src = "assets/img/m4waterkey.png";
     }
     //Key + Water inventory advanced
     if (key && water && hatchet && pistol == true){
-        image.src = "assets/img/pistolhatchetkey.png";
+        image.src = "assets/img/hatchetpistolwaterkey.png";
     }
     if (key && water && hatchet && m4 == true){
-        image.src = "assets/img/m4hatchetkey.png";
+        image.src = "assets/img/m4hatchetwaterkey.png";
     }
     if (key && water && pistol && m4 == true){
-        image.src = "assets/img/m4pistolkey.png";
+        image.src = "assets/img/m4pistolwaterkey.png";
     }
     if (key && water && hatchet && pistol && m4 == true){
-        image.src = "assets/img/allkey.png";
+        image.src = "assets/img/allwaterkey.png";
     }
 } 
 function checkScene()
@@ -692,8 +872,14 @@ function checkScene()
         case "waytoBeach":
             waytoBeach();
             break;
+        case "callHeli":
+            callHeli();
+            break;
         case "waytoBeachBack":
             waytoBeachBack();
+            break;
+        case "atHelicopter":
+            atHelicopter();
             break;
         case "tent":
             tent();
@@ -724,6 +910,15 @@ function checkScene()
             break;
         case "searchBox":
             searchBox();
+            break;
+        case "insideBoat":
+            insideBoat();
+            break;
+        case "searchJacket":
+            searchJacket();
+            break;
+        case "searchChest":
+            searchChest();
             break;
         default:
             startWoods();
