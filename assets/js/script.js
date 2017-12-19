@@ -14,10 +14,10 @@ var hatchet = false;
 var pistol = false;
 var m4 = false;
 var scavDead = false;
-var water = true;
-var key = true;
+var water = false;
+var key = false;
 var chestLooted = false;
-var heliCalled = true;
+var heliCalled = false;
 var giveWatervar = false;
 var giveKeyvar = false;
 
