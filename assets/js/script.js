@@ -337,40 +337,37 @@ function endGame(){
     title.innerHTML =  "Helicopter";
     text.innerHTML = "He is asking me some questions";
     dia.innerHTML = "Pilot: Do you the key and some water for me?";
-    hide();
-    if (giveWatervar && giveKeyvar == true){
-        button1.style.display = "block";
-        button1.setAttribute('onClick', "End()");
-        dia.innerHTML = "Pilot: Thank you, are you ready to leave?";
-    }
-    if (giveKeyvar == true){
-        button1.style.display = "none";
-    }
     if (key == true){
         button1.style.display = "block";
         button1.innerHTML = "Give the key";
         button1.setAttribute('onclick', 'giveKey()');
-    }
-    if (giveWatervar == true){
-        button2.style.display = "none";
+    } else{
+        button1.style.display = "none";
     }
     if (water == true){
         button2.style.display = "block";
         button2.innerHTML = "Give water"
         button2.setAttribute('onclick', 'giveWater()');
+    } else{
+        button2.style.display = "none";
+    }
+    if (giveKeyvar == true){
+        button1.style.display = "none";
+    }
+    if (giveWatervar == true){
+        button2.style.display = "none";
     }
     button3.style.display = "block";
     button3.innerHTML = "Do nothing";
     button3.setAttribute('onClick', "youDied()");
-}
-
-function End(){
-    image.src = "assets/img/end.png";
-}
-
-function giveWater(){
-    giveWatervar = true;
-    endGame();
+    if (giveWatervar && giveKeyvar == true){
+        button1.style.display = "block";
+        button1.setAttribute('onClick', "End()");
+        button1.innerHTML = "Exit"
+        button2.style.display = "none";
+        button3.style.display = "none";
+        dia.innerHTML = "Pilot: Thank you, are you ready to leave?";
+    }
 }
 
 function giveKey(){
@@ -378,6 +375,22 @@ function giveKey(){
     endGame();
 }
 
+function giveWater(){
+    giveWatervar = true;
+    endGame();
+}
+
+function End(){
+    currentScene - "endGame";
+    title.innerHTML =  "The end";
+    text.innerHTML = "The end";
+    dia.innerHTML = "You successfully escaped the island";
+    image.src = "assets/img/end.png";
+    button1.style.display = "none";
+    button2.style.display = "none";
+    button3.style.display = "none";
+    inventorybutton.style.display = "none";
+}
 function tent(){
     currentScene = "tent";
     title.innerHTML = "The tent";
